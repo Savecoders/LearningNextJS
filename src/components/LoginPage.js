@@ -1,14 +1,17 @@
 import { useAuth } from '@/hooks/useAuth';
+// userRouter is a Next.js hook that allows you to access the router object.
+import { useRouter } from 'next/router';
 import { LockClosedIcon } from '@heroicons/react/solid';
 import Image from 'next/image';
-import { useRef } from 'react';
-
 // useRef is a React hook that allows you to create a reference to a DOM element.
+import { useRef } from 'react';
+//import ErrorModal from '@/common/ErrorModal';
 
 export default function LoginPage() {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
     const auth = useAuth();
+    const router = useRouter();
     // get a reference to the email input element
 
     const handleSubmit = (e) => {
@@ -16,7 +19,15 @@ export default function LoginPage() {
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
 
-        auth.signIn(email, password);
+        auth.signIn(email, password)
+            .then(() => {
+                // redirect to the home page
+                router.push('/dashboard');
+            })
+            .catch(() => {
+                console.log('error');
+                //<ErrorModal />;
+            });
     };
 
     return (

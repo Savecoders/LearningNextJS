@@ -2,7 +2,7 @@
 const nextConfig = {
     reactStrictMode: true,
     images: {
-        domains: ['images.unsplash.com'],
+        domains: ['tmdb.org', 'themoviedb.org', 'ui-avatars.com', 'images.unsplash.com'],
     },
 };
 

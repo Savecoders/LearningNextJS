@@ -1,31 +1,36 @@
 import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
+//import Image from 'next/image';
 
-import Image from 'next/image';
-
-const userData = {
-    name: 'Tom Cook',
-    email: 'tom@example.com',
-    imageUrl:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-};
-const navigation = [
-    { name: 'Dashboard', href: '#', current: true },
-    { name: 'Productos', href: '/dashboard/products/', current: false },
-    { name: 'Ventas', href: '#', current: false },
-];
-const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
-    { name: 'Sign out', href: '#' },
-];
+import { useAuth } from '@/hooks/useAuth';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
 export default function Header() {
+    // using the date of the user
+    const auth = useAuth();
+
+    const userData = {
+        name: auth?.user?.name,
+        email: auth?.user?.email,
+        imageUrl: `https://ui-avatars.com/api/?name=${auth?.user?.name}`,
+    };
+
+    const navigation = [
+        { name: 'Dashboard', href: '#', current: true },
+        { name: 'Productos', href: '/dashboard/products/', current: false },
+        { name: 'Ventas', href: '#', current: false },
+    ];
+
+    const userNavigation = [
+        { name: 'Your Profile', href: '#' },
+        { name: 'Settings', href: '#' },
+        { name: 'Sign out', href: '#' },
+    ];
+
     return (
         <>
             <Disclosure as="nav" className="bg-gray-800">
@@ -35,9 +40,7 @@ export default function Header() {
                             <div className="flex items-center justify-between h-16">
                                 <div className="flex items-center">
                                     <div className="flex-shrink-0">
-                                        <Image
-                                            width={40}
-                                            height={40}
+                                        <img
                                             className="h-8 w-8"
                                             src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
                                             alt="Workflow"
@@ -78,12 +81,10 @@ export default function Header() {
                                             <div>
                                                 <Menu.Button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                                                     <span className="sr-only">Open user menu</span>
-                                                    <Image
+                                                    <img
                                                         className="h-8 w-8 rounded-full"
-                                                        height={40}
-                                                        width={40}
-                                                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                                                        alt="Workflow"
+                                                        src={userData.imageUrl}
+                                                        alt=""
                                                     />
                                                 </Menu.Button>
                                             </div>
@@ -153,13 +154,7 @@ export default function Header() {
                             <div className="pt-4 pb-3 border-t border-gray-700">
                                 <div className="flex items-center px-5">
                                     <div className="flex-shrink-0">
-                                        <Image
-                                            width={40}
-                                            height={40}
-                                            className="h-10 w-10 rounded-full"
-                                            src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                                            alt=""
-                                        />
+                                        <img className="h-10 w-10 rounded-full" src={userData.imageUrl} alt="" />
                                     </div>
                                     <div className="ml-3">
                                         <div className="text-base font-medium leading-none text-white">
